@@ -1,20 +1,25 @@
 import { useState } from "react";
-import { TaskManager } from "./TaskManager";
 
-export const Login = () => {
+export const Login = ({
+  handleUserLogged,
+  handleCloseSession,
+  showName,
+  isLogged,
+}) => {
   const [username, setUsername] = useState("");
+  const [userLoggedName, setUserLoggedName] = useState(false);
 
-  const handleLogin = (username) => {
-    alert(
-      `Usuario ingresado exitosamente. Su nombre de usuario es: ${username}`
-    );
+  const handleLogin = () => {
+    handleUserLogged();
+    setUserLoggedName(username);
+    console.log(userLoggedName);
   };
 
   const handleClick = () => {
     if (username.includes("o" || "O")) {
       alert("Usuario inválido para registrarse");
     } else {
-      handleLogin(username);
+      handleLogin();
     }
   };
 
@@ -26,17 +31,24 @@ export const Login = () => {
   };
   return (
     <>
-      <label>Ingrese su nombre de usuario</label>
-      <input value={username} onChange={handleUsername} />
-      <button
-        onClick={() => {
-          handleClick();
-        }}
-      >
-        Registrarse
-      </button>
-      <p>El nombre de usuario con el que se va a registrar es: {username}</p>
-      <TaskManager />
+      {userLoggedName && showName ? (
+        <p>Su nombre de usuario es: {userLoggedName}</p>
+      ) : (
+        <div>
+          <label>Ingrese su nombre de usuario</label>
+          <input value={username} onChange={handleUsername} />
+          {!userLoggedName ? (
+            <button
+              onClick={() => {
+                handleClick();
+              }}
+            >
+              Registrar usuario
+            </button>
+          ) : null}
+          <p>Su nombre de usuario para registrarse es {username}</p>
+        </div>
+      )}
     </>
   );
 };

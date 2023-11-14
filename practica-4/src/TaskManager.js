@@ -1,6 +1,7 @@
 import { useState } from "react";
 
-export const TaskManager = () => {
+export const TaskManager = ({ isLogged }) => {
+  console.log("El usuario esta loggeado", isLogged);
   const [taskList, setTasklist] = useState([]);
   const [task, setTask] = useState("");
 
@@ -36,7 +37,11 @@ export const TaskManager = () => {
                     handleCompleted(index);
                   }}
                 >
-                  {item.completed ? "Terminado" : "No terminado"}
+                  {item.completed ? (
+                    <div style={{ background: "green" }}>"Terminado"</div>
+                  ) : (
+                    <div style={{ background: "red" }}>"No terminado"</div>
+                  )}
                 </button>
                 <button
                   onClick={() => {
@@ -50,7 +55,13 @@ export const TaskManager = () => {
           })}
         </div>
       ) : (
-        <p>No hay tareas</p>
+        <>
+          {isLogged ? (
+            <p>No hay tareas.</p>
+          ) : (
+            <p>No hay tareas, le recomendamos registrarse en la app.</p>
+          )}{" "}
+        </>
       )}
       <label>Agregar nueva tarea</label>
       <input value={task} onChange={handleTaskInput} />
